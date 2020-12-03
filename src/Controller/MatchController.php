@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Match;
-use App\Form\MatchType;
+use App\Entity\match;
+use App\Form\matchType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,12 +19,12 @@ class MatchController extends AbstractController
      */
     public function index(): Response
     {
-        $matches = $this->getDoctrine()
-            ->getRepository(Match::class)
+        $matchs = $this->getDoctrine()
+            ->getRepository(match::class)
             ->findAll();
 
         return $this->render('match/index.html.twig', [
-            'matches' => $matches,
+            'matchs' => $matchs,
         ]);
     }
 
@@ -33,8 +33,8 @@ class MatchController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $match = new Match();
-        $form = $this->createForm(MatchType::class, $match);
+        $match = new match();
+        $form = $this->createForm(matchType::class, $match);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,7 +54,7 @@ class MatchController extends AbstractController
     /**
      * @Route("/{id}", name="match_show", methods={"GET"})
      */
-    public function show(Match $match): Response
+    public function show(match $match): Response
     {
         return $this->render('match/show.html.twig', [
             'match' => $match,
@@ -64,9 +64,9 @@ class MatchController extends AbstractController
     /**
      * @Route("/{id}/edit", name="match_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Match $match): Response
+    public function edit(Request $request, match $match): Response
     {
-        $form = $this->createForm(MatchType::class, $match);
+        $form = $this->createForm(matchType::class, $match);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -84,7 +84,7 @@ class MatchController extends AbstractController
     /**
      * @Route("/{id}", name="match_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Match $match): Response
+    public function delete(Request $request, match $match): Response
     {
         if ($this->isCsrfTokenValid('delete'.$match->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

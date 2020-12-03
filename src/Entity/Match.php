@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     security="is_granted('ROLE_USER')",
  *     collectionOperations={
- *      "get" = {"normalization_context"={"groups"={"Match:Collection:Read"}}},
+ *      "get" = {"normalization_context"={"groups"={"match:Collection:Read"}}},
  *      "post"
  *     },
  *     itemOperations={
@@ -53,7 +53,7 @@ class Match
     private ?float $scorePlayerB = null;
     /**
      * @ORM\Column(type="string")
-     * @Groups("Match:Collection:Read")
+     * @Groups("match:Collection:Read")
      */
     private ?string $status = null;
 
