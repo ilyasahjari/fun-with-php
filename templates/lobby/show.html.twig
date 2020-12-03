@@ -15,6 +15,13 @@
                 <th>Name</th>
                 <td>{{ lobby.name }}</td>
             </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <a href="{{ path('lobby_players_show', {'id': lobby.id}) }}">Join</a>
+                </td>
+            </tr>
+            
         </tbody>
     </table>
 

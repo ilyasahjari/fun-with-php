@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lobby{% endblock %}
+
+{% block body %}
+    <h1>Lobby</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ lobby.id }}</td>
+            </tr>
+            <tr>
+                <th>Players Number</th>
+                <td>{{ lobby.players | length }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('play_match', {'id': lobby.id})}}">Create match</a>
+
+  <a href="{{ path('lobby_player_leave', {'id': lobby.id}) }}">Leave</a>
+{% endblock %}

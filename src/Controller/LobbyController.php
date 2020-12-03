@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/lobby")
+ * @Security("is_granted('ROLE_USER')")
  */
 class LobbyController extends AbstractController
 {
@@ -94,23 +95,40 @@ class LobbyController extends AbstractController
 
 
      /**
-     * @Route("/{id}", name="lobby_show", methods={"GET"})
+     * @Route("/{id}", name="lobby_players_show", methods={"GET"})
      */
     public function join(Lobby $lobby): Response
     {
         $user = $this->getUser();
         $lobby->addPlayer($user);
-        return $this->render('lobby/show.html.twig', [
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($lobby);
+        $entityManager->flush();
+     
+        return $this->render('lobby/show_players.html.twig', [
             'lobby' => $lobby,
         ]);
     }
 
+    /**
+     * @Route("/leave/{id}", name="lobby_player_leave", methods={"GET"})
+     */
+    public function leave(Lobby $lobby): Response
+     {
+         $user = $this->getUser();
+         $lobby->removePlayer($user);
+         $entityManager = $this->getDoctrine()->getManager();
+         $entityManager->persist($lobby);
+         $entityManager->flush();
+         return $this->redirectToRoute('lobby_index');
+     }
 
+    /**
+     * @Route("/{id}", name="play_match", methods={"GET"})
+     */
     public function playMatch(Lobby $lobby): Response
     {
-    
-        return $this->render('lobby/show.html.twig', [
-            'lobby' => $lobby,
-        ]);
+        return $this->redirectToRoute('lobby_players_show', ["id" => $lobby->getId()]);
     }
+    
 }
